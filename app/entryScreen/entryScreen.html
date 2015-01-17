@@ -1,12 +1,15 @@
 <form>
   <div class="form-group">
-    <input type="text" class="form-control" id="title" placeholder="Title">
+    <label for="Activity">Activity</label>
+    <input type="text" class="form-control" id="Activity" placeholder="Activity Name">
   </div>
   <div class="form-group">
-    <input type="text" class="form-control" id="duration" placeholder="Duration (minutes)">
+    <label for="Duration">Duration (minutes)</label>
+    <input type="number" class="form-control" id="Duration" placeholder="Duration in minutes">
   </div>
   <div class="form-group">
-    <textarea class="form-control" rows="3" placeholder="description"></textarea>
+    <textarea class="form-control"  id="description" placeholder="Notes"></textarea>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn btn-primary pull-right">Submit</button>
+  <div class="clearfix"></div>
 </form>
