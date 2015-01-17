@@ -5,7 +5,7 @@ var preprocess = require('gulp-preprocess');
 var process = require('process');
 var livereload = require('gulp-livereload');
 var webserver = require('gulp-webserver');
-var sass = require('gulp-sass');
+var less = require('gulp-less');
 var runSequence = require('run-sequence');
 
 var build_options = {
@@ -56,8 +56,8 @@ gulp.task('build:app', function() {
  * Precompile the style and move it to ./build
  **/
 gulp.task('move:css', function() {
-  return gulp.src('./app/app.scss')
-    .pipe(sass())
+  return gulp.src('./app/app.less')
+    .pipe(less())
     .pipe(gulp.dest('./build'));
 });
 
@@ -117,9 +117,9 @@ gulp.task('watch', function() {
 
   livereload.listen();
 
-  watch('./app/index.html', 'move:html');
+  watch('./app/**/*.html', 'move:html');
   watch('./app/**/*.js', 'build:app');
-  watch('./app/app.scss', 'move:css');
+  watch('./app/app.less', 'move:css');
   watch('./app/assets/**/*', 'move:assets');
 });
 
