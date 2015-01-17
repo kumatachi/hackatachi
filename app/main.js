@@ -1,8 +1,10 @@
 require('./headerBar/headerBar')
+require('./entryScreen/entryScreen')
 require('./home/home')
 
 angular.module('hackatachi', [
   'headerBar',
+   'entryScreen',
   'home',
   'ngRoute']
 )
@@ -10,6 +12,9 @@ angular.module('hackatachi', [
   	$routeProvider.
       when('/', {
         template: '<home></home>',
+      }).
+      when('/new', {
+        template: '<entry-screen></entry-screen>'
       }).
       otherwise({
         redirectTo: '/'
