@@ -1,7 +1,11 @@
-//require('./testDirective/testDirective')
+require('./headerBar/headerBar')
 require('./home/home')
 
-angular.module('hackatachi', [ 'home', 'ngRoute'])
+angular.module('hackatachi', [
+  'headerBar',
+  'home',
+  'ngRoute']
+)
   .config(function($routeProvider) {
   	$routeProvider.
       when('/', {
