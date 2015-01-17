@@ -8,7 +8,7 @@ angular.module('home', [])
         $location.path('new/')
       }
       $scope.review = function() {
-        $location.path('review/')
+        $location.path('progress/')
       }
     },
     restrict: 'AE'
