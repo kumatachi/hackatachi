@@ -10,9 +10,6 @@ angular.module('home', [])
       $scope.progress = function() {
         $location.path('progress/')
       }
-      $scope.hasProgress = function(){
-        return ($scope.models != null && $scope.models.length != 0)
-      }
       dataService.getData().then(function(data) {
         $scope.models = data
       })

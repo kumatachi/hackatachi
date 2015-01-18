@@ -11,7 +11,7 @@ angular.module('configPage', [])
         };
 
         $scope.generateData = function(){
-          var actions = [
+          /*var actions = [
             "sitting on ",
             "eating ",
             "writing about ",
@@ -92,36 +92,67 @@ angular.module('configPage', [])
               console.log(activity)
               saveThis.push(activity)
             })
+          }*/
+
+          var durations = [30, 45, 60, 120, 15, 20, 25]
+          var getDate = function(str) {
+            return moment('2015-' + str, 'YYYY-MM-DD').add(1, 'seconds').toISOString()
+          };
+
+          var getActivity = function(name, date, duration) {
+            var activity = {
+              name: name,
+              duration: duration ? duration : durations[Math.floor(Math.random() * durations.length)],
+              date: getDate(date)
+            };
+            console.log(activity)
+            return activity
           }
 
-          /*var currDay = moment();
-          var saveThis = [];
-          var recentActions = [];
-          for(var x = 0; x < 100; x++){
-            currDay = currDay.clone().subtract(Math.floor(x%5),"days");
-            var a = ((x * 23) + moment().millisecond()) % actions.length;
-            var n = ((x * 41) + moment().millisecond()) % nouns.length;
-            if(recentActions.length <= variety){
-              recentActions.push(actions[a] + nouns[n]);
-              if (actions.length > 5) {
-                actions.splice(a, 1);
-              }
-              if (nouns.length > 5) {
-                nouns.splice(n, 1);
-              }
-            }
-            var activity = {
-              _id: currDay.toISOString(),
-              name: recentActions[x%variety],
-              notes: "",
-              date: currDay.toISOString(),
-              duration: (x * 27) % 300,
-              startTime: null,
-              endTime: null
-            };
-            saveThis.push(activity);
-          }*/
-          db.bulkDocs(saveThis, function(err, response) {
+          db.bulkDocs([
+            getActivity('Browsing Reddit', '01-18', 60),
+            getActivity('Browsing Reddit', '01-17', 60),
+            getActivity('Browsing Reddit', '01-16', 60 * 2),
+            getActivity('Browsing Reddit', '01-15', 60 * 3),
+            getActivity('Browsing Reddit', '01-14', 60 * 4),
+            getActivity('Browsing Reddit', '01-13', 60 * 5),
+            getActivity('Browsing Reddit', '01-12', 60 * 5),
+            getActivity('Browsing Reddit', '01-11', 60 * 5),
+            getActivity('Browsing Reddit', '01-10', 60 * 5),
+            getActivity('Browsing Reddit', '01-09', 60 * 6),
+            getActivity('Browsing Reddit', '01-08', 60 * 5),
+            getActivity('Browsing Reddit', '01-07', 60 * 5),
+            getActivity('Browsing Reddit', '01-06', 60 * 7),
+            getActivity('Browsing Reddit', '01-05', 60 * 4),
+            getActivity('Browsing Reddit', '01-04', 60 * 5),
+
+
+            getActivity('Coding Practice', '01-18', 60 * 5),
+            getActivity('Coding Practice', '01-17', 60 * 5),
+            getActivity('Coding Practice', '01-16', 60 * 5),
+            getActivity('Coding Practice', '01-15', 60 * 5),
+            getActivity('Coding Practice', '01-14', 60 * 5),
+            getActivity('Coding Practice', '01-13', 60 * 4),
+            getActivity('Coding Practice', '01-12', 60 * 4),
+            getActivity('Coding Practice', '01-11', 60 * 5),
+            getActivity('Coding Practice', '01-10', 60 * 3),
+            getActivity('Coding Practice', '01-09', 60 * 3),
+            getActivity('Coding Practice', '01-08', 60 * 4),
+            getActivity('Coding Practice', '01-07', 60 * 2),
+            getActivity('Coding Practice', '01-06', 60 * 3),
+            getActivity('Coding Practice', '01-05', 60 * 3),
+            getActivity('Coding Practice', '01-04', 60 * 1),
+
+            getActivity('Exercising', '01-18', 90),
+            getActivity('Exercising', '01-17', 60),
+            getActivity('Exercising', '01-16', 90 * 1),
+            getActivity('Exercising', '01-13', 75 * 1),
+            getActivity('Exercising', '01-11', 90 * 1),
+
+            getActivity('Exercising', '01-10', 60 * 1),
+            getActivity('Exercising', '01-07', 60 * 1),
+            getActivity('Exercising', '01-04', 60 * 1),
+          ], function(err, response) {
             if(err){
               console.log(err);
             }else{

@@ -34,6 +34,9 @@ angular.module('progressPage', [])
                 $scope.pieTimeScope = value;
                 generatePieDataSet()
               }
+              $scope.formatDuration = function(minutes) {
+                return moment.duration(minutes, 'minutes').humanize()
+              }
 
                 var sort = $filter('orderBy');
                 var generatePieDataSet = function () {
@@ -54,6 +57,10 @@ angular.module('progressPage', [])
                       .filter(function(e) {
                         if (!$scope.pieTimeScope) {
                           return true;
+                        }
+                        else if ($scope.pieTimeScope == 'week') {
+                          var m = moment().subtract(7, 'days').startOf('day');
+                          return e.date.isBetween(m,moment());
                         }
                         else {
                           var m = moment();
@@ -98,7 +105,7 @@ angular.module('progressPage', [])
                     console.log(mapping);
 
                   $scope.dataSet = mapping.map(function(activities, idx) {
-                    var dayOfWeek = today.clone().subtract(mapping.length - (idx+1), 'days').format('dddd');
+                    var dayOfWeek = today.clone().subtract(mapping.length - (idx+1), 'days').format('ddd');
                     console.log(dayOfWeek)
                     return {
                       label: dayOfWeek,

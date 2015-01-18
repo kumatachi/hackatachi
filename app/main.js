@@ -62,4 +62,9 @@ angular.module('hackatachi', [
       otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function($rootScope) {
+    $rootScope.hasProgress = function(){
+      return ($scope.models != null && $scope.models.length != 0)
+    }
   });
