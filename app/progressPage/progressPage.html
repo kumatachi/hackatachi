@@ -1,7 +1,13 @@
 <div class="row" style="margin: 0;">
-    <div style="text-align: center;">
-        <button class="btn btn-default" ng-click="pieView()">Pie View</button>
-    </div>
+  <div style="text-align: center;" ng-hide="pieShow">
+    <button class="btn btn-default" ng-click="pieView()">Pie View</button>
+  </div>
+  <div style="text-align: center;" ng-show="pieShow">
+    <button class="btn {{pieTimeScope ? 'btn-default' : 'btn-primary'}}" ng-click="setPieTimeScope(undefined)">All</button>
+    <button class="btn {{pieTimeScope=='month' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('month')" >Month</button>
+    <button class="btn {{pieTimeScope=='week' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('week')" >Week</button>
+    <button class="btn {{pieTimeScope=='day' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('day')" >Day</button>
+  </div>
     <div>
         <flot dataset="dataSet" options="flotOptions" height="480px" width="100%"></flot>
         <div style="" ng-show="pieShow">

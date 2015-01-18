@@ -7,8 +7,6 @@ angular.module('progressPage', [])
               activityName: '='
             },
             controller: function ($scope, dataService, $filter, $location) {
-                $scope.pieShow = true;
-                $scope.barShow = false;
                 $scope.data = [];
 
                 dataService.getData().then(function (data) {
@@ -17,9 +15,11 @@ angular.module('progressPage', [])
                   if ($scope.activityName) {
                     generateBarDataSet($scope.activityName)
                     $scope.flotOptions = $scope.barOptions;
+                    $scope.pieShow = false;
                   }
                   else {
                     generatePieDataSet();
+                    $scope.pieShow = true;
                     $scope.flotOptions = $scope.pieOptions;
                   }
                 });
@@ -30,13 +30,18 @@ angular.module('progressPage', [])
               $scope.activityView = function(activityName) {
                 $location.search('activityName', activityName);
               }
+              $scope.setPieTimeScope = function(value) {
+                $scope.pieTimeScope = value;
+                generatePieDataSet()
+              }
 
                 var sort = $filter('orderBy');
                 var generatePieDataSet = function () {
                     $scope.dataSet = $scope.data.map(function (entry) {
                         return {
-                            name: entry.name,
-                            duration: entry.duration
+                          name: entry.name,
+                          duration: entry.duration,
+                          date: moment(entry.date)
                         };
                     }).sort(function (a, b) {
                         a = a.name;
@@ -45,7 +50,17 @@ angular.module('progressPage', [])
                             return 0;
                         }
                         return a < b ? -1 : 1;
-                    }).reduce(function (prev, cur, idx) {
+                    })
+                      .filter(function(e) {
+                        if (!$scope.pieTimeScope) {
+                          return true;
+                        }
+                        else {
+                          var m = moment();
+                          return e.date.isBetween(m.clone().startOf($scope.pieTimeScope), m)
+                        }
+                      })
+                      .reduce(function (prev, cur, idx) {
                         if (prev.length > 0 && prev[prev.length - 1].name == cur.name) {
                             prev[prev.length - 1].duration += cur.duration;
                         }
