@@ -5,15 +5,26 @@ angular.module('entryScreen', [])
     	templateUrl: 'entryScreen/entryScreen.html',
     	controller: function($scope, $location, db) {
     		$scope.timerActive = false;
+    		$scope.selectedDate = moment();
   			$scope.activity = {
-      			_id: new Date().toISOString(),
+      			_id: $scope.selectedDate.toISOString(),
       			name: "",
       			duration: 0,
       			notes: "",
-      			date: new Date().toISOString(),
+      			date: $scope.selectedDate.toISOString(),
       			startTime: null,
       			endTime: null
       		};
+      		$scope.previousDay = function(){
+      			$scope.selectedDate.subtract(1, 'days');
+      			$scope.activity._id = $scope.selectedDate.toISOString();
+      			$scope.activity.date = $scope.selectedDate.toISOString();
+      		}
+      		$scope.nextDay = function(){
+      			$scope.selectedDate.add(1, 'days');
+      			$scope.activity._id = $scope.selectedDate.toISOString();
+      			$scope.activity.date = $scope.selectedDate.toISOString();
+      		}
       		$scope.startActivity = function(){
       			$scope.activity.startTime = new Date().toISOString();
       			$scope.timerActive = true;
@@ -32,6 +43,9 @@ angular.module('entryScreen', [])
   					}
   					console.log(res);
       			});
+      		}
+      		$scope.isToday = function(){
+      			return moment().startOf('day').diff($scope.selectedDate.startOf('day'), 'days') == 0;
       		}
 		}
     }
