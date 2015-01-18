@@ -5,10 +5,15 @@
     </div>
     <div  ng-show="pieShow">
         <flot dataset="dataset" options="pieOptions" height="480px" width="100%"></flot>
-        <div style="text-align: center;">
-            <ul>
-                <li ng-repeat="data in dataset"><button class="btn btn-default" ng-click="activityView(data.label)">{{data.label}}</button> -- {{data.dataVal}}</li>
-            </ul>
+        <div style="">
+            <table class="table table-hover">
+              <thead>
+                <tr><th>Activity</th><th>Minutes</th></tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="data in dataset" ng-click="activityView(data.label)"><td>{{data.label}}</td><td>{{data.dataVal}}</td></tr>
+              </tbody>
+            </table>
         </div>
     </div>
     <div  ng-show="barShow">

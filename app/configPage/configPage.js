@@ -46,7 +46,7 @@ angular.module('configPage', [])
           ];
           var currDay = moment();
           var saveThis = [];
-          for(var x = 0; x < 50; x++){
+          for(var x = 0; x < 20; x++){
             currDay = currDay.subtract(Math.floor(x/5),"days");
             var a = (x * 23) % actions.length;
             var n = (x * 41) % nouns.length;
@@ -57,7 +57,7 @@ angular.module('configPage', [])
               name: theAct,
               notes: "",
               date: currDay.toISOString(),
-              duration: (x * 27) % 350,
+              duration: (x * 27) % 300,
               startTime: null,
               endTime: null
             };
