@@ -13,7 +13,8 @@
     <h2>No data</h2>
     <p>Please add new activities first</p>
   </div>
-    <div >
+    <div>
+      <h2 class="text-center">{{activityName}}</h2>
         <flot dataset="dataSet" options="flotOptions" height="480px" width="100%"></flot>
         <div style="" ng-show="pieShow && dataSet.length > 0">
             <table class="table table-hover">

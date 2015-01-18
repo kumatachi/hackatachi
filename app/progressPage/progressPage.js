@@ -95,7 +95,6 @@ angular.module('progressPage', [])
                     for (var i = 6; i >= 0; --i) {
                         week.push(today.clone().subtract(i, 'days'));
                     }
-                    console.log(activityName)
                     var mapping = week.map(function(day) {
                         return $scope.data.filter(function(a) {
                             return a.name == activityName && moment(a.date).format('YYYY-MM-DD') == day.format('YYYY-MM-DD');
