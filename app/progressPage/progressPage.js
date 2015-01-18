@@ -3,6 +3,8 @@ angular.module('progressPage', [])
     return {
       templateUrl: 'progressPage/progressPage.html',
       controller: function($scope, dataService) {
+          $scope.pieShow = true;
+          $scope.barShow = false;
           $scope.dataset = [];
           var dataProcess = function(){
               dataService.getData().then(function(data) {
@@ -40,18 +42,31 @@ angular.module('progressPage', [])
               });
           };
 
-          $scope.options = {
-              series: {
-                  pie: {
-                      show: true
-                  }
-              },
-              legend: {
-                  show: false
-              }
-          };
+                $scope.pieOptions = {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                };
 
-          dataProcess();
-      }
-    }
-  });
+
+                $scope.barOptions = {
+                    series: {
+                        bars: {
+                            barWidth: 5,
+                            align: "left"
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                };
+
+                dataProcess();
+            }
+        }
+    });

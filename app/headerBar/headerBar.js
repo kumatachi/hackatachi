@@ -8,7 +8,10 @@ angular.module('headerBar', [])
         }
 		$scope.progress = function() {
         $location.path('progress/')
-      }
+      	}
+		$scope.new = function() {
+        $location.path('new/')
+      	}
       }
     }
   });
