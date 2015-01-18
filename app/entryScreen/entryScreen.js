@@ -43,15 +43,38 @@ angular.module('entryScreen', ['ui.bootstrap'])
 	            }
 	        	}, []);
         	});
+        };
+
+        var generateCurrentDateActivities = function() {
+          dataService.getData().then(function(data) {
+            $scope.currentDateActivities = data.filter(function(e) {
+              var m = moment(e.date);
+              return m.isBetween($scope.selectedDate.clone().startOf('day'), $scope.selectedDate.clone().endOf('day'));
+            })
+          });
         }
+
+        $scope.delete = function(activity) {
+          db.remove(activity, function(err) {
+            if (err) {
+              console.log(err)
+            }
+            generateOtherActivities();
+            generateCurrentDateActivities();
+          })
+        }
+
         generateOtherActivities();
+        generateCurrentDateActivities();
         $scope.previousDay = function(){
           $scope.selectedDate.subtract(1, 'days');
           $scope.activity.date = $scope.selectedDate.toISOString();
+          generateCurrentDateActivities();
         };
         $scope.nextDay = function(){
           $scope.selectedDate.add(1, 'days');
           $scope.activity.date = $scope.selectedDate.toISOString();
+          generateCurrentDateActivities();
         };
         $scope.startActivity = function(){
           $scope.activity.startTime = new Date().toISOString();
@@ -93,6 +116,7 @@ angular.module('entryScreen', ['ui.bootstrap'])
               toastr.info("Logged it!");
               $(".entryContainer").slideUp(500);
               $scope.$apply(function(){
+                generateCurrentDateActivities();
               	generateOtherActivities();
                 $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
                 $scope.selectedDate = moment();
