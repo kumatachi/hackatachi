@@ -1,3 +1,4 @@
+var moment = require('moment');
 angular.module('progressPage', [])
     .directive('progressPage', function () {
         return {
@@ -10,6 +11,7 @@ angular.module('progressPage', [])
                 var sort = $filter('orderBy');
                 var dataProcess = function () {
                     dataService.getData().then(function (data) {
+                        var activityTime = 0;
                         $scope.rawData = data;
                         data.map(function (entry) {
                             return {
@@ -34,6 +36,7 @@ angular.module('progressPage', [])
                             return prev;
 
                         }, []).forEach(function (datapoint) {
+                                activityTime += datapoint.duration;
                                 var tempObj = {
                                     label: datapoint.name,
                                     data: [datapoint.duration],
@@ -48,27 +51,37 @@ angular.module('progressPage', [])
                 };
 
                 $scope.activityView = function activityView(activity) {
-                    $scope.barData = [];
-                    var i = 0;
-                  angular.forEach($scope.rawData, function(raw){
-                    if(raw.name == activity){
-                        var tempObj = {
-                            data: [[i, raw.duration]],
-                            bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-                        };
-                        $scope.barData.push(tempObj);
-                        i++;
+                    var today = moment().startOf('day');
+                    var week = [];
+
+                    for (var i = 7; i > 0; --i) {
+                        week.push(today.clone().subtract(i, 'days'));
                     }
-                  });
-                    $scope.switchViews('bars');
-                  console.log(activity);
+
+                    var mapping = week.map(function(day) {
+                        return $scope.rawData.filter(function(activity) {
+                            return moment(activity.date).format('YYYY-MM-DD') == day.format('YYYY-MM-DD');
+                        });
+                    })
+
+                    console.log(mapping);
+                };
+
+                $scope.populateBarData = function populateBarData(dayVals, range){
+                    $scope.barData = [];
+                    for(var i=0;i<7;i++){
+                        $scope.barData[i] = {
+                            data: [i, dayVals[i].val],
+                            bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
+                        }
+                  }
                 };
 
                 $scope.switchViews = function switchViews(view){
                     if(view === 'bars'){
                         $scope.pieShow = false;
                         $scope.barShow = true;
-                    }else if(view==='pie'){
+                    }else if(view === 'pie'){
                         $scope.barShow = false;
                         $scope.pieShow = true;
                     }
@@ -81,6 +94,8 @@ angular.module('progressPage', [])
                             label: {
                                 show: true,
                                 formatter: function(label, slice) {
+//                                    console.log(label);
+//                                    console.log(slice);
                                     return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + Math.round(slice.percent) + "%</div>";
                                 }
                             }
@@ -98,26 +113,6 @@ angular.module('progressPage', [])
                     }
                 };
 
-//                var daftPoints = [[0, 4]],
-//                    punkPoints = [[1, 20]],
-//                    punkPoints2 = [[2, 33]];
-//
-//                var data1 = [
-//                    {
-//                        data: daftPoints,
-//                        bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-//                    },
-//                    {
-//                        data: punkPoints,
-//                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-//                    },
-//                    {
-//                        data: punkPoints2,
-//                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-//                    }
-//                ];
-
-//                $scope.data = data1;
 
                 $scope.barOptions = {
                     series:{
