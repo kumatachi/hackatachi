@@ -1,11 +1,12 @@
 var moment = require('moment');
-angular.module('entryScreen', [])
+angular.module('entryScreen', ['ui.bootstrap'])
   .directive('entryScreen', function() {
     return {
     	templateUrl: 'entryScreen/entryScreen.html',
-    	controller: function($scope, $location, db) {
+    	controller: function($scope, $location, db, dataService) {
     		$scope.timerActive = false;
     		$scope.selectedDate = moment();
+    		$scope.otherActivities = [];
   			$scope.activity = {
       			_id: $scope.selectedDate.toISOString(),
       			name: "",
@@ -15,6 +16,22 @@ angular.module('entryScreen', [])
       			startTime: null,
       			endTime: null
       		};
+
+      		dataService.getData().then(function(data) {
+      			$scope.otherActivities = data.map(function(e) {
+      				return e.name
+      			}).sort().reduce(function(prev, curr, index){
+      				if (index == 1) {
+      					prev = [prev]
+      				}
+      				if (prev[prev.length-1] == curr) {
+      					return prev;
+      				}
+      				else {
+      					return prev.concat(curr)
+      				}
+      			});
+      		})
       		$scope.previousDay = function(){
       			$scope.selectedDate.subtract(1, 'days');
       			$scope.activity._id = $scope.selectedDate.toISOString();
