@@ -2,6 +2,7 @@ require('./headerBar/headerBar')
 require('./entryScreen/entryScreen')
 require('./home/home')
 require('./progressPage/progressPage')
+require('./configPage/configPage')
 
 angular.module('persist', [])
 .factory('db', function() {
@@ -39,6 +40,7 @@ angular.module('hackatachi', [
   'angular-flot',
   'persist',
   'progressPage',
+  'configPage',
   'ngRoute'])
   .config(function($routeProvider) {
   	$routeProvider.
@@ -50,6 +52,9 @@ angular.module('hackatachi', [
       }).
       when('/progress', {
         template: '<progress-page></progress-page>'
+      }).
+      when('/config', {
+        template: '<config-page></config-page>'
       }).
       otherwise({
         redirectTo: '/'
