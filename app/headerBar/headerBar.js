@@ -7,9 +7,7 @@ angular.module('headerBar', [])
           $location.path('/')
         }
         $scope.progress = function() {
-          if($scope.hasProgress()){
-            $location.path('progress/')
-          }
+          $location.path('progress/')
       	}
 		    $scope.new = function() {
           $location.path('new/')
