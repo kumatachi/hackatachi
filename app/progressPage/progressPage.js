@@ -1,3 +1,4 @@
+var moment = require('moment');
 angular.module('progressPage', [])
     .directive('progressPage', function () {
         return {
@@ -10,6 +11,7 @@ angular.module('progressPage', [])
                 var sort = $filter('orderBy');
                 var dataProcess = function () {
                     dataService.getData().then(function (data) {
+                        var activityTime = 0;
                         $scope.rawData = data;
                         data.map(function (entry) {
                             return {
@@ -37,6 +39,7 @@ angular.module('progressPage', [])
                                 return prev;
 
                             }).forEach(function (datapoint) {
+                                activityTime += datapoint.duration;
                                 var tempObj = {
                                     label: datapoint.name,
                                     data: [datapoint.duration],
@@ -44,8 +47,14 @@ angular.module('progressPage', [])
                                     date: datapoint.date
                                 };
                                 $scope.dataset.push(tempObj);
-                            })
-                        console.log($scope.rawData);
+                            });
+//                        var undocumented = 10080 - activityTime;
+//                        $scope.dataset.push({
+//                            label: 'Undocumented/Other',
+//                            data: [undocumented],
+//                            dataVal: undocumented
+//                        });
+//                        console.log($scope.rawData);
                         $scope.predicate = 'dataVal';
                         $scope.dataset = sort($scope.dataset, $scope.predicate);
                     });
@@ -53,26 +62,46 @@ angular.module('progressPage', [])
 
                 $scope.activityView = function activityView(activity) {
                     $scope.barData = [];
-                    var i = 0;
+                    $scope.today = moment();
+                    var dayVals = [];
+                    var lastWeek = $scope.today.subtract(7, "days");
                   angular.forEach($scope.rawData, function(raw){
-                    if(raw.name == activity){
-                        var tempObj = {
-                            data: [[i, raw.duration]],
-                            bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-                        };
-                        $scope.barData.push(tempObj);
-                        i++;
+                      var eventMoment = moment(raw.date);
+                      var withinWeek = !eventMoment.isBefore(lastWeek);
+                    if(raw.name == activity && withinWeek == true){
+//                        if(eventMoment.day( )> $scope.today.day()){
+//
+//                        } else {
+//
+//                        }
+                        console.log(eventMoment.diff($scope.today, 'days'));
+//                        dayVals[eventMoment.day()-1] =  {
+//                            val: raw.duration,
+//                            day: eventMoment.day()
+//                        };
+
+//                        $scope.barData.push(tempObj);
                     }
                   });
-                    $scope.switchViews('bars');
-                  console.log(activity);
+//                    $scope.populateBarData(dayVals, 7);
+//                    $scope.switchViews('bars');
+                };
+
+                $scope.populateBarData = function populateBarData(dayVals, range){
+                    $scope.barData = [];
+                    for(var i=0;i<7;i++){
+                        $scope.barData[i] = {
+                            data: [i, dayVals[i].val],
+                            bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
+                        }
+                  }
                 };
 
                 $scope.switchViews = function switchViews(view){
                     if(view === 'bars'){
                         $scope.pieShow = false;
                         $scope.barShow = true;
-                    }else if(view==='pie'){
+                    }else if(view === 'pie'){
                         $scope.barShow = false;
                         $scope.pieShow = true;
                     }
