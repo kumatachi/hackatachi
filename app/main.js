@@ -13,10 +13,10 @@ angular.module('hackatachi', [
   'headerBar',
   'entryScreen',
   'home',
+    'angular-flot',
   'persist',
   'progressPage',
   'ngRoute']
-)
   .config(function($routeProvider) {
   	$routeProvider.
       when('/', {
