@@ -17,26 +17,23 @@ angular.module('progressPage', [])
                                 duration: entry.duration
                             };
                         }).sort(function (a, b) {
-                                a = a.name;
-                                b = b.name;
-                                if (a == b) {
-                                    return 0;
-                                }
-                                return a < b ? -1 : 1;
-                            }).reduce(function (prev, cur, idx) {
-                                if (idx == 1) {
-                                    prev = [prev];
-                                }
-                                if (prev[prev.length - 1].name == cur.name) {
-                                    prev[prev.length - 1].duration += cur.duration
-                                }
-                                else {
-                                    prev.push(cur);
-                                }
+                            a = a.name;
+                            b = b.name;
+                            if (a == b) {
+                                return 0;
+                            }
+                            return a < b ? -1 : 1;
+                        }).reduce(function (prev, cur, idx) {
+                            if (prev.length > 0 && prev[prev.length - 1].name == cur.name) {
+                                prev[prev.length - 1].duration += cur.duration;
+                            }
+                            else {
+                                prev.push(cur);
+                            }
 
-                                return prev;
+                            return prev;
 
-                            }).forEach(function (datapoint) {
+                        }, []).forEach(function (datapoint) {
                                 var tempObj = {
                                     label: datapoint.name,
                                     data: [datapoint.duration],
@@ -45,7 +42,6 @@ angular.module('progressPage', [])
                                 };
                                 $scope.dataset.push(tempObj);
                             })
-                        console.log($scope.rawData);
                         $scope.predicate = 'dataVal';
                         $scope.dataset = sort($scope.dataset, $scope.predicate);
                     });
@@ -85,16 +81,14 @@ angular.module('progressPage', [])
                             label: {
                                 show: true,
                                 formatter: function(label, slice) {
-//                                    console.log(label);
-//                                    console.log(slice);
-                                    return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'><button ng-click='testAlarm();'>" + label + "</button><br/>" + Math.round(slice.percent) + "%</div>";
+                                    return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + Math.round(slice.percent) + "%</div>";
                                 }
                             }
                         }
                     },
                     grid: {
-                        hoverable: true,
-                        clickable: true
+                        //hoverable: true,
+                        //clickable: true
                     },
                     legend: {
                         show: false,

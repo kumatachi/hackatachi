@@ -36,16 +36,13 @@ angular.module('entryScreen', ['ui.bootstrap'])
           	$scope.otherActivities = data.map(function(e) {
             	return e.name
           	}).sort().reduce(function(prev, curr, index){
-            if (index == 1) {
-            	prev = [prev]
-            }
             if (prev[prev.length-1] == curr) {
             	return prev;
             }
             else {
             	return prev.concat(curr)
             }
-          });
+          }, []);
         });
         $scope.previousDay = function(){
           $scope.selectedDate.subtract(1, 'days');
