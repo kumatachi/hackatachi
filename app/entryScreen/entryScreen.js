@@ -58,7 +58,20 @@ angular.module('entryScreen', ['ui.bootstrap'])
   					if (err) {
   						console.log(err);
   					}
-  					console.log(res);
+  					toastr.info("Logged it!");
+  					$(".entryContainer").slideUp(500);
+  					$scope.$apply(function(){
+  						$scope.activity = {
+			      			_id: $scope.selectedDate.toISOString(),
+			      			name: "",
+			      			duration: 0,
+			      			notes: "",
+			      			date: $scope.selectedDate.toISOString(),
+			      			startTime: null,
+			      			endTime: null
+			      		};
+  					});
+  					$(".entryContainer").slideDown(500);
       			});
       		}
       		$scope.isToday = function(){

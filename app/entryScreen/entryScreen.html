@@ -1,28 +1,29 @@
-<form ng-submit="submit()" class="">
-  <div class="lead text-center"><a href="javascript:void(0);" ng-click="previousDay()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a> {{selectedDate.format("MMMM dddd D, YYYY")}} <a href="javascript:void(0);" ng-click="nextDay()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></div>
-  <div class="form-group">
-    <label for="Activity">Activity</label>
-    <input type="text" typeahead="x for x in otherActivities | filter:$viewValue | limitTo: 10" class="form-control" id="Activity" ng-model="activity.name" placeholder="Activity Name">
-  </div>
-  <div class="form-group">
-    <div class="input-group">
-      <input type="number" class="form-control" id="duration" ng-model="activity.duration" placeholder="Duration in Minutes">
-      <span class="input-group-btn" ng-hide="timerActive">
-        <button class="btn btn-success" type="button" ng-click="startActivity()" ng-disabled="!isToday()">Start</button>
-      </span>
-      <span class="input-group-btn" ng-show="timerActive">
-        <button class="btn btn-danger" type="button" ng-click="endActivity();">End</button>
-      </span>
+<div class="entryContainer">
+  <form ng-submit="submit()" class="">
+    <div class="lead text-center"><a href="javascript:void(0);" ng-click="previousDay()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a> {{selectedDate.format("MMMM dddd D, YYYY")}} <a href="javascript:void(0);" ng-click="nextDay()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></div>
+    <div class="form-group">
+      <label for="Activity">Activity</label>
+      <input type="text" typeahead="x for x in otherActivities | filter:$viewValue | limitTo: 10" class="form-control" id="Activity" ng-model="activity.name" placeholder="Activity Name">
     </div>
-  </div>
-  <div class="form-group">
-    <label for="description">Notes</label>
-    <textarea class="form-control" id="description" placeholder="Notes" ng-model="activity.notes"></textarea>
-  </div>
-  <button type="submit" class="btn btn-primary pull-right">Submit</button>
-  <div class="clearfix"></div>
-</form>
-
+    <div class="form-group">
+      <div class="input-group">
+        <input type="number" class="form-control" id="duration" ng-model="activity.duration" placeholder="Duration in Minutes">
+        <span class="input-group-btn" ng-hide="timerActive">
+          <button class="btn btn-success" type="button" ng-click="startActivity()" ng-disabled="!isToday()">Start</button>
+        </span>
+        <span class="input-group-btn" ng-show="timerActive">
+          <button class="btn btn-danger" type="button" ng-click="endActivity();">End</button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Notes</label>
+      <textarea class="form-control" id="description" placeholder="Notes" ng-model="activity.notes"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+    <div class="clearfix"></div>
+  </form>
+</div>
 {{activity.timerActive == true}}<br>
 {{activity.name}}<br>
 {{activity.duration}}<br>
