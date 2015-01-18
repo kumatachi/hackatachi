@@ -1,18 +1,18 @@
 <div class="row" style="margin: 0;">
     <div style="text-align: center;">
-        <button class="btn btn-default" ng-click="barShow = false; pieShow = true;">Pie View</button>
-        <button class="btn btn-default" ng-click="barShow = true; pieShow = false;">Bar View</button>
+        <button class="btn btn-default" ng-click="switchViews('pie')">Pie View</button>
+        <button class="btn btn-default" ng-click="switchViews('bars')">Bar View</button>
     </div>
     <div  ng-show="pieShow">
         <flot dataset="dataset" options="pieOptions" height="480px" width="100%"></flot>
         <div style="text-align: center;">
             <ul>
-                <li ng-repeat="data in dataset">{{data.label}} -- {{data.dataVal}}</li>
+                <li ng-repeat="data in dataset"><button class="btn btn-default" ng-click="activityView(data.label)">{{data.label}}</button> -- {{data.dataVal}}</li>
             </ul>
         </div>
     </div>
     <div  ng-show="barShow">
-        <flot dataset="data" options="barOptions" height="480px" width="100%"></flot>
+        <flot dataset="barData" options="barOptions" height="480px" width="100%"></flot>
         <div id="barLegend" style="width: 200px; height: 200px;"></div>
     </div>
 </div>
