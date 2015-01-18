@@ -2,21 +2,26 @@
   <div style="text-align: center;" ng-hide="pieShow">
     <button class="btn btn-default" ng-click="pieView()">Pie View</button>
   </div>
-  <div style="text-align: center;" ng-show="pieShow">
+  <div style="text-align: center;" ng-show="pieShow && data.length > 0">
     <button class="btn {{pieTimeScope ? 'btn-default' : 'btn-primary'}}" ng-click="setPieTimeScope(undefined)">All</button>
     <button class="btn {{pieTimeScope=='month' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('month')" >Month</button>
     <button class="btn {{pieTimeScope=='week' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('week')" >Week</button>
     <button class="btn {{pieTimeScope=='day' ? 'btn-primary' : 'btn-default'}}" ng-click="setPieTimeScope('day')" >Day</button>
   </div>
-    <div>
+
+  <div ng-show="data.length == 0">
+    <h2>No data</h2>
+    <p>Please add new activities first</p>
+  </div>
+    <div >
         <flot dataset="dataSet" options="flotOptions" height="480px" width="100%"></flot>
-        <div style="" ng-show="pieShow">
+        <div style="" ng-show="pieShow && dataSet.length > 0">
             <table class="table table-hover">
               <thead>
-                <tr><th>Activity</th><th>Minutes</th></tr>
+                <tr><th>Activity</th><th>Total duration</th></tr>
               </thead>
               <tbody>
-                <tr ng-repeat="data in dataSet" ng-click="activityView(data.label)"><td>{{data.label}}</td><td>{{data.dataVal}}</td></tr>
+                <tr ng-repeat="data in dataSet" ng-click="activityView(data.label)"><td>{{data.label}}</td><td>{{formatDuration(data.dataVal)}}</td></tr>
               </tbody>
             </table>
         </div>
