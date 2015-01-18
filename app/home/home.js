@@ -7,7 +7,7 @@ angular.module('home', [])
       $scope.new = function() {
         $location.path('new/')
       }
-      $scope.review = function() {
+      $scope.progress = function() {
         $location.path('progress/')
       }
 
