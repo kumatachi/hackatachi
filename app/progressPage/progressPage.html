@@ -1,10 +1,14 @@
 <div class="row" style="margin: 0;">
-    <div class="col-sm-1" style="text-align: center;">
-        <button class="btn btn-default">Pie View</button>
-        <button class="btn btn-default">Bar View</button>
+    <div style="text-align: center;">
+        <button class="btn btn-default" ng-click="barShow = false; pieShow = true;">Pie View</button>
+        <button class="btn btn-default" ng-click="barShow = true; pieShow = false;">Bar View</button>
     </div>
-    <div class="col-md-8">
-        <flot dataset="dataset" options="options" height="480px" width="100%"></flot>
-        <div id="legend" style="width: 200px; height: 200px;"></div>
+    <div  ng-show="pieShow">
+        <flot dataset="dataset" options="pieOptions" height="480px" width="100%"></flot>
+        <div id="pieLegend" style="width: 200px; height: 200px;"></div>
+    </div>
+    <div  ng-show="barShow">
+        <flot dataset="dataset" options="barOptions" height="480px" width="100%"></flot>
+        <div id="barLegend" style="width: 200px; height: 200px;"></div>
     </div>
 </div>
