@@ -6,6 +6,9 @@ angular.module('headerBar', [])
         $scope.home = function() {
           $location.path('/')
         }
+		$scope.progress = function() {
+        $location.path('progress/')
+      }
       }
     }
   });
