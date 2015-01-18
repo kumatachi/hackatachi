@@ -3,14 +3,20 @@ require('./entryScreen/entryScreen')
 require('./home/home')
 require('./progressPage/progressPage')
 
+angular.module('persist', [])
+.factory('db', function() {
+    var db = new PouchDB('test');
+    return db;
+  });
+
 angular.module('hackatachi', [
   'headerBar',
-   'entryScreen',
+  'entryScreen',
   'home',
-        'progressPage',
-  'ngRoute',
-        'angular-flot']
-)
+    'angular-flot',
+  'persist',
+  'progressPage',
+  'ngRoute']
   .config(function($routeProvider) {
   	$routeProvider.
       when('/', {
