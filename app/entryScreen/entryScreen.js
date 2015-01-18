@@ -15,13 +15,13 @@ angular.module('entryScreen', [])
       			endTime: null
       		};
       		$scope.startActivity = function(){
-      			
       			$scope.activity.startTime = moment();
       			$scope.activity.timerActive = true;
       		}
       		$scope.endActivity = function(){
       			$scope.activity.endTime = moment();
       			$scope.activity.timeActive = false;
+      			$scope.activity.duration = Math.ceil((($scope.activity.endTime-$scope.activity.startTime)/1000)/60); //milli to minutes
       		}
 		}
     }
