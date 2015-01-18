@@ -1,10 +1,9 @@
 <div class="row" style="margin: 0;">
     <div style="text-align: center;">
         <button class="btn btn-default" ng-click="switchViews('pie')">Pie View</button>
-        <button class="btn btn-default" ng-click="switchViews('bars')">Bar View</button>
     </div>
-    <div  ng-show="pieShow">
-        <flot dataset="dataSet" options="pieOptions" height="480px" width="100%"></flot>
+    <div>
+        <flot dataset="dataSet" options="flotOptions" height="480px" width="100%"></flot>
         <div style="">
             <table class="table table-hover">
               <thead>
@@ -15,8 +14,5 @@
               </tbody>
             </table>
         </div>
-    </div>
-    <div  ng-show="barShow">
-        <flot dataset="dataSet" options="barOptions" height="480px" width="100%"></flot>
     </div>
 </div>

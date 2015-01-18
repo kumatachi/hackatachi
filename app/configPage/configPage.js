@@ -8,7 +8,7 @@ angular.module('configPage', [])
     	controller: function($scope, $location, db) {
         $scope.destroyDB = function(){
           db.destroy();
-        }
+        };
 
         $scope.generateData = function(){
           var actions = [
@@ -63,12 +63,43 @@ angular.module('configPage', [])
             "no-tear shampoos",
             "flippy floppies"
           ];
+
+          var uniqueActivities = [];
+          var variety = 5;
           var currDay = moment();
+
+          for (var i = 0; i < variety; ++i) {
+            var activity = actions[0] + nouns[0]
+            actions.splice(0, 1);
+            nouns.splice(0, 1);
+            uniqueActivities.push(activity);
+          }
+
+          console.log(uniqueActivities);
+
+          var saveThis = [];
+          for (var i = 0; i < 15; ++i) {
+            uniqueActivities.forEach(function(activityName) {
+              var randomNumber = Math.floor(Math.random() * 7);
+              var activity = {
+                _id: new Date().toISOString(),
+                name: activityName,
+                notes: "",
+                date: currDay.clone().subtract(randomNumber, 'days').toISOString(),
+                duration: Math.floor(480 * Math.random()),
+                startTime: null,
+                endTime: null
+              }
+              console.log(activity)
+              saveThis.push(activity)
+            })
+          }
+
+          /*var currDay = moment();
           var saveThis = [];
           var recentActions = [];
-          var variety = 15;
-          for(var x = 0; x < 50; x++){
-            currDay = currDay.subtract(Math.floor(x/5),"days");
+          for(var x = 0; x < 100; x++){
+            currDay = currDay.clone().subtract(Math.floor(x%5),"days");
             var a = ((x * 23) + moment().millisecond()) % actions.length;
             var n = ((x * 41) + moment().millisecond()) % nouns.length;
             if(recentActions.length <= variety){
@@ -90,7 +121,7 @@ angular.module('configPage', [])
               endTime: null
             };
             saveThis.push(activity);
-          }
+          }*/
           db.bulkDocs(saveThis, function(err, response) {
             if(err){
               console.log(err);
@@ -102,7 +133,7 @@ angular.module('configPage', [])
 
 
         }
-        
+
 		  }
     }
   });

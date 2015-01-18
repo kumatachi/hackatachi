@@ -52,7 +52,7 @@ angular.module('progressPage', [])
                     var today = moment().startOf('day');
                     var week = [];
 
-                    for (var i = 7; i > 0; --i) {
+                    for (var i = 6; i >= 0; --i) {
                         week.push(today.clone().subtract(i, 'days'));
                     }
                     console.log(activityName)
@@ -64,35 +64,31 @@ angular.module('progressPage', [])
 
                     console.log(mapping);
 
-                  var dummy = [{
-                    label: 'fuck',
-                      data: [[0, 4]],
-                  },
-                  {
-                    label: 'you',
-                      data: [[1, 20]],
-                  }];
-
                   $scope.dataSet = mapping.map(function(activities, idx) {
-                    console.log(activities)
+                    var dayOfWeek = today.clone().subtract(mapping.length - (idx+1), 'days').format('dddd');
+                    console.log(dayOfWeek)
                     return {
-                      label: today.clone().subtract(idx, 'days').format('dddd'),
-                      data: [[idx,activities.reduce(function(prev, curr){
+                      label: dayOfWeek,
+                      data: [[dayOfWeek,activities.reduce(function(prev, curr){
                         return prev + curr.duration;
                       }, 0)]]
                     }
-                  })
+                  });
 
-                  $scope.switchViews('bars')
+                  $scope.switchViews('bars', activityName)
                 };
 
-                $scope.switchViews = function switchViews(view){
+                $scope.switchViews = function switchViews(view, activityName){
                     if(view === 'bars'){
-                        $scope.pieShow = false;
-                        $scope.barShow = true;
+                      $scope.pieShow = false;
+                      $scope.barShow = true;
+                      $scope.barActivity = activityName;
+                      $scope.flotOptions = $scope.barOptions;
                     }else if(view === 'pie'){
                         $scope.barShow = false;
                         $scope.pieShow = true;
+                      $scope.flotOptions = $scope.pieOptions;
+                      dataProcess();
                     }
                 };
 
@@ -128,8 +124,13 @@ angular.module('progressPage', [])
                     bars: {
                       show: true
                     }
+                  },
+                  xaxis: {
+                    mode: 'categories'
                   }
                 };
+
+              $scope.flotOptions = $scope.pieOptions;
 
                 dataProcess();
             }
