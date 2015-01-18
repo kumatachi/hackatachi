@@ -5,23 +5,25 @@ angular.module('entryScreen', [])
     return {
     	templateUrl: 'entryScreen/entryScreen.html',
     	controller: function($scope, $location) {
+    		$scope.timerActive = false;
   			$scope.activity = {
       			name: "",
       			duration: 0,
       			notes: "",
-      			date: moment(),
-      			timerActive: false,
+      			date: new Date().toISOString(),
       			startTime: null,
       			endTime: null
       		};
       		$scope.startActivity = function(){
-      			$scope.activity.startTime = moment();
-      			$scope.activity.timerActive = true;
+      			$scope.activity.startTime = new Date().toISOString();
+      			$scope.timerActive = true;
       		}
       		$scope.endActivity = function(){
-      			$scope.activity.endTime = moment();
-      			$scope.activity.timeActive = false;
-      			$scope.activity.duration = Math.ceil((($scope.activity.endTime-$scope.activity.startTime)/1000)/60); //milli to minutes
+      			$scope.activity.endTime = new Date().toISOString();
+      			$scope.timerActive = false;
+      			var s = moment($scope.activity.startTime),
+      				e = moment($scope.activity.endTime);
+      			$scope.activity.duration = e.diff(s).asMinutes(); //milli to minutes
       		}
 		}
     }

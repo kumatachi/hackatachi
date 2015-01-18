@@ -6,17 +6,17 @@
   <div class="form-group">
     <div class="input-group">
       <input type="number" class="form-control" id="duration" ng-model="activity.duration" placeholder="Duration in Minutes">
-      <span class="input-group-btn" ng-hide="activity.timerActive">
+      <span class="input-group-btn" ng-hide="timerActive">
         <button class="btn btn-success" type="button" ng-click="startActivity()">Start</button>
       </span>
-      <span class="input-group-btn" ng-show="activity.timerActive">
-        <button class="btn btn-danger" type="button" ng-click="endActivity(); activity.timerActive=false;">End</button>
+      <span class="input-group-btn" ng-show="timerActive">
+        <button class="btn btn-danger" type="button" ng-click="endActivity();">End</button>
       </span>
     </div>
   </div>
   <div class="form-group">
     <label for="description">Notes</label>
-    <textarea id="description" placeholder="Notes" ng-model="activity.notes"></textarea>
+    <textarea class="form-control" id="description" placeholder="Notes" ng-model="activity.notes"></textarea>
   </div>
   <button type="submit" class="btn btn-primary pull-right">Submit</button>
   <div class="clearfix"></div>
