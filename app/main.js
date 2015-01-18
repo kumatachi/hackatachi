@@ -8,7 +8,8 @@ angular.module('hackatachi', [
    'entryScreen',
   'home',
         'progressPage',
-  'ngRoute']
+  'ngRoute',
+        'angular-flot']
 )
   .config(function($routeProvider) {
   	$routeProvider.
