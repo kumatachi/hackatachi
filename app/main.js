@@ -51,7 +51,10 @@ angular.module('hackatachi', [
         template: '<entry-screen></entry-screen>'
       }).
       when('/progress', {
-        template: '<progress-page></progress-page>'
+        template: '<progress-page activity-name="activityName"></progress-page>',
+        controller: function($scope, $routeParams) {
+          $scope.activityName = $routeParams.activityName;
+        }
       }).
       when('/config', {
         template: '<config-page></config-page>'

@@ -1,10 +1,10 @@
 <div class="row" style="margin: 0;">
     <div style="text-align: center;">
-        <button class="btn btn-default" ng-click="switchViews('pie')">Pie View</button>
+        <button class="btn btn-default" ng-click="pieView()">Pie View</button>
     </div>
     <div>
         <flot dataset="dataSet" options="flotOptions" height="480px" width="100%"></flot>
-        <div style="">
+        <div style="" ng-show="pieShow">
             <table class="table table-hover">
               <thead>
                 <tr><th>Activity</th><th>Minutes</th></tr>

@@ -3,52 +3,70 @@ angular.module('progressPage', [])
     .directive('progressPage', function () {
         return {
             templateUrl: 'progressPage/progressPage.html',
-            controller: function ($scope, dataService, $filter) {
+            scope: {
+              activityName: '='
+            },
+            controller: function ($scope, dataService, $filter, $location) {
                 $scope.pieShow = true;
                 $scope.barShow = false;
                 $scope.data = [];
+
+                dataService.getData().then(function (data) {
+                  $scope.data = data;
+                  // load the rest of the shiz
+                  if ($scope.activityName) {
+                    generateBarDataSet($scope.activityName)
+                    $scope.flotOptions = $scope.barOptions;
+                  }
+                  else {
+                    generatePieDataSet();
+                    $scope.flotOptions = $scope.pieOptions;
+                  }
+                });
+
+              $scope.pieView = function() {
+                $location.search('activityName', undefined);
+              }
+              $scope.activityView = function(activityName) {
+                $location.search('activityName', activityName);
+              }
+
                 var sort = $filter('orderBy');
-                var dataProcess = function () {
-                    dataService.getData().then(function (data) {
-                        var activityTime = 0;
-                        $scope.data = data;
-                        $scope.dataSet = data.map(function (entry) {
+                var generatePieDataSet = function () {
+                    $scope.dataSet = $scope.data.map(function (entry) {
+                        return {
+                            name: entry.name,
+                            duration: entry.duration
+                        };
+                    }).sort(function (a, b) {
+                        a = a.name;
+                        b = b.name;
+                        if (a == b) {
+                            return 0;
+                        }
+                        return a < b ? -1 : 1;
+                    }).reduce(function (prev, cur, idx) {
+                        if (prev.length > 0 && prev[prev.length - 1].name == cur.name) {
+                            prev[prev.length - 1].duration += cur.duration;
+                        }
+                        else {
+                            prev.push(cur);
+                        }
+
+                        return prev;
+
+                    }, []).map(function (datapoint) {
                             return {
-                                name: entry.name,
-                                duration: entry.duration
+                                label: datapoint.name,
+                                data: [datapoint.duration],
+                                dataVal: datapoint.duration,
+                                date: datapoint.date
                             };
-                        }).sort(function (a, b) {
-                            a = a.name;
-                            b = b.name;
-                            if (a == b) {
-                                return 0;
-                            }
-                            return a < b ? -1 : 1;
-                        }).reduce(function (prev, cur, idx) {
-                            if (prev.length > 0 && prev[prev.length - 1].name == cur.name) {
-                                prev[prev.length - 1].duration += cur.duration;
-                            }
-                            else {
-                                prev.push(cur);
-                            }
-
-                            return prev;
-
-                        }, []).map(function (datapoint) {
-                                activityTime += datapoint.duration;
-                                return {
-                                    label: datapoint.name,
-                                    data: [datapoint.duration],
-                                    dataVal: datapoint.duration,
-                                    date: datapoint.date
-                                };
-                            });
-                        $scope.predicate = 'dataVal';
-                        $scope.dataSet = sort($scope.dataSet, $scope.predicate);
-                    });
+                        });
+                    $scope.dataSet = sort($scope.dataSet, $scope.predicate);
                 };
 
-                $scope.activityView = function activityView(activityName) {
+                var generateBarDataSet = function activityView(activityName) {
                     var today = moment().startOf('day');
                     var week = [];
 
@@ -74,22 +92,6 @@ angular.module('progressPage', [])
                       }, 0)]]
                     }
                   });
-
-                  $scope.switchViews('bars', activityName)
-                };
-
-                $scope.switchViews = function switchViews(view, activityName){
-                    if(view === 'bars'){
-                      $scope.pieShow = false;
-                      $scope.barShow = true;
-                      $scope.barActivity = activityName;
-                      $scope.flotOptions = $scope.barOptions;
-                    }else if(view === 'pie'){
-                        $scope.barShow = false;
-                        $scope.pieShow = true;
-                      $scope.flotOptions = $scope.pieOptions;
-                      dataProcess();
-                    }
                 };
 
                 $scope.pieOptions = {
@@ -130,9 +132,6 @@ angular.module('progressPage', [])
                   }
                 };
 
-              $scope.flotOptions = $scope.pieOptions;
-
-                dataProcess();
             }
         }
     });
