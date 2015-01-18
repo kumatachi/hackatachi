@@ -2,18 +2,32 @@ angular.module('progressPage', [])
   .directive('progressPage', function() {
     return {
       templateUrl: 'progressPage/progressPage.html',
-      controller: function($scope) {
-          $scope.dataset = [{ data: [], yaxis: 1, label: "sin" }];
+      controller: function($scope, dataService) {
+          $scope.dataset = [];
+          var dataProcess = function(){
+              dataService.getData().then(function(data) {
+                  data.forEach(function(datapoint){
+                      var tempObj = {
+                          label: datapoint.name,
+                          data: [datapoint.duration]
+                      };
+                      $scope.dataset.push(tempObj);
+                  })
+              });
+          };
+
           $scope.options = {
+              series: {
+                  pie: {
+                      show: true
+                  }
+              },
               legend: {
-                  container: "#legend",
-                  show: true
+                  show: false
               }
           };
-          for (var i = 0; i < 14; i += 0.5) {
-              $scope.dataset[0].data.push([i, Math.sin(i)]);
-          }
-          console.log($scope.dataset);
+
+          dataProcess();
       }
     }
   });

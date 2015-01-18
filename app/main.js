@@ -36,7 +36,7 @@ angular.module('hackatachi', [
   'headerBar',
   'entryScreen',
   'home',
-    'angular-flot',
+  'angular-flot',
   'persist',
   'progressPage',
   'ngRoute'])
