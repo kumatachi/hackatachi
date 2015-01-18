@@ -88,12 +88,30 @@ angular.module('entryScreen', ['ui.bootstrap'])
 
         $scope.submit = function(){
           $scope.activity.duration = $scope.durationHours * 60 + $scope.durationMinutes;
-
           db.put($scope.activity, function(err, res) {
-          if (err) {
-            console.log(err);
-          }
-          console.log(res);
+            if (err) {
+              console.log(err);
+            }
+            else {
+              console.log(res);
+              toastr.info("Logged it!");
+              $(".entryContainer").slideUp(500);
+              $scope.$apply(function(){
+
+                $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
+                $scope.selectedDate = moment();
+                $scope.activity = {
+                  _id: $scope.selectedDate.toISOString(),
+                  name: "",
+                  duration: 0,
+                  notes: "",
+                  date: $scope.selectedDate.toISOString(),
+                  startTime: null,
+                  endTime: null
+                };
+              });
+              $(".entryContainer").slideDown(500);
+            }
           });
         };
         $scope.isToday = function(){

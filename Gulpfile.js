@@ -81,8 +81,13 @@ gulp.task('move:assets', function() {
 });
 
 gulp.task('move:bower', function() {
-  return gulp.src('./bower_components/**/*')
-    .pipe(gulp.dest('./build/bower_components'));
+    return gulp.src('./bower_components/**/*')
+        .pipe(gulp.dest('./build/bower_components'));
+});
+
+gulp.task('move:libs', function() {
+    return gulp.src('./libs/**/*')
+        .pipe(gulp.dest('./build/libs'));
 });
 
 gulp.task('build', function(cb) {
@@ -90,7 +95,7 @@ gulp.task('build', function(cb) {
 });
 
 gulp.task('move', function(cb) {
-  runSequence(['move:html', 'move:css', 'move:assets', 'move:bower'], cb);
+  runSequence(['move:html', 'move:css', 'move:assets', 'move:bower', 'move:libs'], cb);
 });
 
 gulp.task('main', function(cb) {
