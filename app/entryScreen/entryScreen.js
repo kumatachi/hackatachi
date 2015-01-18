@@ -18,7 +18,7 @@ angular.module('entryScreen', ['ui.bootstrap'])
         };
 
     		$scope.timerActive = false;
-        	$scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
+        $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
     		$scope.selectedDate = moment();
     		$scope.otherActivities = [];
   			$scope.activity = {
