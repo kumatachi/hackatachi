@@ -82,7 +82,6 @@ angular.module('configPage', [])
             uniqueActivities.forEach(function(activityName) {
               var randomNumber = Math.floor(Math.random() * 7);
               var activity = {
-                _id: new Date().toISOString(),
                 name: activityName,
                 notes: "",
                 date: currDay.clone().subtract(randomNumber, 'days').toISOString(),

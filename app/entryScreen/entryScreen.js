@@ -22,7 +22,6 @@ angular.module('entryScreen', ['ui.bootstrap'])
     		$scope.selectedDate = moment();
     		$scope.otherActivities = [];
   			$scope.activity = {
-          _id: $scope.selectedDate.toISOString(),
           name: "",
           notes: "",
           date: $scope.selectedDate.toISOString(),
@@ -48,12 +47,10 @@ angular.module('entryScreen', ['ui.bootstrap'])
         generateOtherActivities();
         $scope.previousDay = function(){
           $scope.selectedDate.subtract(1, 'days');
-          $scope.activity._id = $scope.selectedDate.toISOString();
           $scope.activity.date = $scope.selectedDate.toISOString();
         };
         $scope.nextDay = function(){
           $scope.selectedDate.add(1, 'days');
-          $scope.activity._id = $scope.selectedDate.toISOString();
           $scope.activity.date = $scope.selectedDate.toISOString();
         };
         $scope.startActivity = function(){
@@ -87,7 +84,7 @@ angular.module('entryScreen', ['ui.bootstrap'])
 
         $scope.submit = function(){
           $scope.activity.duration = $scope.durationHours * 60 + $scope.durationMinutes;
-          db.put($scope.activity, function(err, res) {
+          db.post($scope.activity, function(err, res) {
             if (err) {
               console.log(err);
             }
@@ -100,7 +97,6 @@ angular.module('entryScreen', ['ui.bootstrap'])
                 $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
                 $scope.selectedDate = moment();
                 $scope.activity = {
-                  _id: $scope.selectedDate.toISOString(),
                   name: "",
                   duration: 0,
                   notes: "",
