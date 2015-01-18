@@ -1,5 +1,4 @@
-var moment = require('moment')
-
+var moment = require('moment');
 angular.module('entryScreen', [])
   .directive('entryScreen', function() {
     return {
@@ -9,26 +8,21 @@ angular.module('entryScreen', [])
   			$scope.activity = {
       			name: "",
       			duration: 0,
-      			notes: ""
+      			notes: "",
+      			date: moment(),
+      			timerActive: false,
+      			startTime: null,
+      			endTime: null
       		};
-        $scope.test = 'hello world from test directive';
-        $scope.submit = function() {
-          if (!$scope.model._id) {
-            $scope.model._id = new Date().toISOString()
-          }
-          if (!$scope.model.date) {
-            $scope.model.date = new Date().toISOString()
-          }
-          console.log($scope.model)
-          db.put($scope.model, function(err, result) {
-            if (!err) {
-              console.log("success")
-            }
-            else {
-              console.log(err)
-            }
-          })
-        }
+      		$scope.startActivity = function(){
+      			$scope.activity.startTime = moment();
+      			$scope.activity.timerActive = true;
+      		}
+      		$scope.endActivity = function(){
+      			$scope.activity.endTime = moment();
+      			$scope.activity.timeActive = false;
+      			$scope.activity.duration = Math.ceil((($scope.activity.endTime-$scope.activity.startTime)/1000)/60); //milli to minutes
+      		}
 		}
     }
   });
