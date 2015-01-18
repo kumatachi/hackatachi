@@ -3,7 +3,6 @@
     {{mytime}}
     <div class="lead text-center"><a href="javascript:void(0);" ng-click="previousDay()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a> {{selectedDate.format("ddd. MMM D, YYYY")}} <a href="javascript:void(0);" ng-click="nextDay()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></div>
     <div class="form-group">
-      {{otherActivities}}
       <label for="Activity">Activity</label>
       <input type="text" required typeahead="x for x in otherActivities | filter:$viewValue | limitTo: 10" class="form-control" id="Activity" ng-model="activity.name" placeholder="Activity Name">
     </div>
