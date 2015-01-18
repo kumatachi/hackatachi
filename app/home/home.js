@@ -2,7 +2,7 @@ angular.module('home', [])
   .directive('home', function() {
   return {
     templateUrl: 'home/home.html',
-    controller: function($scope, $location, db) {
+    controller: function($scope, $location, dataService) {
       $scope.test = 'hello world from test directive'
       $scope.new = function() {
         $location.path('new/')
@@ -11,10 +11,8 @@ angular.module('home', [])
         $location.path('progress/')
       }
 
-      db.allDocs({include_docs: true}, function(err, doc) {
-        $scope.$apply(function() {
-          $scope.models = doc.rows
-        })
+      dataService.getData().then(function(data) {
+        $scope.models = data
       })
     },
     restrict: 'AE'
