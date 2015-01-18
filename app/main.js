@@ -16,7 +16,7 @@ angular.module('hackatachi', [
     'angular-flot',
   'persist',
   'progressPage',
-  'ngRoute']
+  'ngRoute'])
   .config(function($routeProvider) {
   	$routeProvider.
       when('/', {
