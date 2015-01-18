@@ -51,6 +51,9 @@ angular.module('hackatachi', [
       when('/progress', {
         template: '<progress-page></progress-page>'
       }).
+      when('/config', {
+        template: '<config-page></config-page>'
+      }).
       otherwise({
         redirectTo: '/'
       });
