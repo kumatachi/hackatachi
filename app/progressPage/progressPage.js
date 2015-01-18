@@ -11,7 +11,6 @@ angular.module('progressPage', [])
                 var dataProcess = function () {
                     dataService.getData().then(function (data) {
                         $scope.rawData = data;
-                        console.log(data);
                         data.map(function (entry) {
                             return {
                                 name: entry.name,
@@ -41,20 +40,42 @@ angular.module('progressPage', [])
                                 var tempObj = {
                                     label: datapoint.name,
                                     data: [datapoint.duration],
-                                    dataVal: datapoint.duration
+                                    dataVal: datapoint.duration,
+                                    date: datapoint.date
                                 };
                                 $scope.dataset.push(tempObj);
                             })
-                        console.log($scope.dataset);
+                        console.log($scope.rawData);
                         $scope.predicate = 'dataVal';
                         $scope.dataset = sort($scope.dataset, $scope.predicate);
-                        console.log($scope.dataset);
                     });
                 };
 
-                $scope.testAlarm = function(){
-                    alert('TEST TEST TEST');
-                    console.log('lol wtf');
+                $scope.activityView = function activityView(activity) {
+                    $scope.barData = [];
+                    var i = 0;
+                  angular.forEach($scope.rawData, function(raw){
+                    if(raw.name == activity){
+                        var tempObj = {
+                            data: [[i, raw.duration]],
+                            bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
+                        };
+                        $scope.barData.push(tempObj);
+                        i++;
+                    }
+                  });
+                    $scope.switchViews('bars');
+                  console.log(activity);
+                };
+
+                $scope.switchViews = function switchViews(view){
+                    if(view === 'bars'){
+                        $scope.pieShow = false;
+                        $scope.barShow = true;
+                    }else if(view==='pie'){
+                        $scope.barShow = false;
+                        $scope.pieShow = true;
+                    }
                 };
 
                 $scope.pieOptions = {
@@ -83,36 +104,27 @@ angular.module('progressPage', [])
                     }
                 };
 
-                var daftPoints = [[0, 4]],
-                    punkPoints = [[1, 20]],
-                    punkPoints2 = [[2, 33]];
-
-                var data1 = [
-                    {
-                        data: daftPoints,
-                        bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-                    },
-                    {
-                        data: punkPoints,
-                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-                    },
-                    {
-                        data: punkPoints2,
-                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-                    }
-                ];
-
-                $scope.data = data1;
-
-
+//                var daftPoints = [[0, 4]],
+//                    punkPoints = [[1, 20]],
+//                    punkPoints2 = [[2, 33]];
 //
-//                var d1 = [];
-//                for (var i = 0; i <= 10; i += 1) {
-//                    d1.push([i, parseInt(Math.random() * 30)]);
-//                }
-//                $scope.barData = {data: d1, lines: { show: true, fill: true }, stack: true };
-//
-//
+//                var data1 = [
+//                    {
+//                        data: daftPoints,
+//                        bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
+//                    },
+//                    {
+//                        data: punkPoints,
+//                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
+//                    },
+//                    {
+//                        data: punkPoints2,
+//                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
+//                    }
+//                ];
+
+//                $scope.data = data1;
+
                 $scope.barOptions = {
                     series:{
                         bars:{show: true}
