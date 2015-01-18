@@ -1,0 +1,41 @@
+<div class="entryContainer">
+  <form ng-submit="submit()" class="">
+    <div class="lead text-center no-select"><a href="javascript:void(0);" ng-click="previousDay()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a> {{selectedDate.format("ddd. MMM D, YYYY")}} <a href="javascript:void(0);" ng-click="nextDay()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></div>
+    <div class="form-group">
+      <label for="Activity">Activity</label>
+      <input type="text" required typeahead="x for x in otherActivities | filter:$viewValue | limitTo: 10" class="form-control" id="Activity" ng-model="activity.name" placeholder="Activity Name">
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Duration</label>
+        <div class="row">
+          <div class="col-xs-3"><input type="number" class="form-control" ng-model="durationHours" placeholder="Hours"></div>
+          <div class="col-xs-3"><input type="number" class="form-control" ng-model="durationMinutes" placeholder="Minutes"></div>
+          <div class="col-xs-3"><input type="number" class="form-control" ng-model="durationSeconds" placeholder="Seconds"></div>
+          <div class="col-xs-3">
+            <span class="input-group-btn" ng-hide="timerActive">
+              <button class="btn btn-success" type="button" ng-click="startActivity()" ng-disabled="!isToday()" style="width:100%">Start</button>
+            </span>
+            <span class="input-group-btn" ng-show="timerActive">
+              <button class="btn btn-danger" type="button" ng-click="endActivity();"  style="width:100%">End</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-3">Hours</div>
+          <div class="col-xs-3">Minutes</div>
+          <div class="col-xs-3">Seconds</div>
+          <div class="col-xs-3">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Notes</label>
+      <textarea class="form-control" id="description" placeholder="Notes" ng-model="activity.notes"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+    <div class="clearfix"></div>
+  </form>
+</div>

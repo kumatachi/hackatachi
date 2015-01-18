@@ -1,0 +1,39 @@
+.left50pct {
+    float: left;
+    width: 49%;
+    margin: 0;
+}
+.right50pct {
+    float: right;
+    width: 49%;
+    margin: 0;
+}
+.clear50pct { clear: both; }
+
+.navbar-main .navbar-inner {
+    background-image: url("../img/radian-logo-small.png");
+    background-repeat: no-repeat; background-position: 15px 5px;
+}
+.navbar-main .brand { margin-left: 15px; }
+
+footer { background-color: #eee; color: #555; margin: 5px 0px; }
+
+.nyi { color: #888; font-style: italic; }
+
+.plot-center { width: 100%; }
+.plot-center .radian { margin-left: auto; margin-right: auto; }
+
+.plot-title {
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.exercise {
+    border: 1px solid #999;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+.plot-hidden { position: absolute; left: -10000px; }
