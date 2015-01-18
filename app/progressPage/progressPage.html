@@ -5,7 +5,11 @@
     </div>
     <div  ng-show="pieShow">
         <flot dataset="dataset" options="pieOptions" height="480px" width="100%"></flot>
-        <div id="pieLegend" style="width: 200px; height: 200px;"></div>
+        <div style="text-align: center;">
+            <ul>
+                <li ng-repeat="data in dataset">{{data.label}} -- {{data.dataVal}}</li>
+            </ul>
+        </div>
     </div>
     <div  ng-show="barShow">
         <flot dataset="data" options="barOptions" height="480px" width="100%"></flot>

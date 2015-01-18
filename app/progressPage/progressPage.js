@@ -2,12 +2,16 @@ angular.module('progressPage', [])
     .directive('progressPage', function () {
         return {
             templateUrl: 'progressPage/progressPage.html',
-            controller: function ($scope, dataService) {
+            controller: function ($scope, dataService, $filter) {
                 $scope.pieShow = true;
                 $scope.barShow = false;
+                $scope.rawData = [];
                 $scope.dataset = [];
+                var sort = $filter('orderBy');
                 var dataProcess = function () {
                     dataService.getData().then(function (data) {
+                        $scope.rawData = data;
+                        console.log(data);
                         data.map(function (entry) {
                             return {
                                 name: entry.name,
@@ -36,17 +40,35 @@ angular.module('progressPage', [])
                             }).forEach(function (datapoint) {
                                 var tempObj = {
                                     label: datapoint.name,
-                                    data: [datapoint.duration]
+                                    data: [datapoint.duration],
+                                    dataVal: datapoint.duration
                                 };
                                 $scope.dataset.push(tempObj);
                             })
+                        console.log($scope.dataset);
+                        $scope.predicate = 'dataVal';
+                        $scope.dataset = sort($scope.dataset, $scope.predicate);
+                        console.log($scope.dataset);
                     });
+                };
+
+                $scope.testAlarm = function(){
+                    alert('TEST TEST TEST');
+                    console.log('lol wtf');
                 };
 
                 $scope.pieOptions = {
                     series: {
                         pie: {
-                            show: true
+                            show: true,
+                            label: {
+                                show: true,
+                                formatter: function(label, slice) {
+//                                    console.log(label);
+//                                    console.log(slice);
+                                    return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'><button ng-click='testAlarm();'>" + label + "</button><br/>" + Math.round(slice.percent) + "%</div>";
+                                }
+                            }
                         }
                     },
                     grid: {
@@ -54,9 +76,13 @@ angular.module('progressPage', [])
                         clickable: true
                     },
                     legend: {
-                        show: false
+                        show: false,
+                        labelFormatter: function(label, series){
+                            return label;
+                        }
                     }
                 };
+
                 var daftPoints = [[0, 4]],
                     punkPoints = [[1, 20]],
                     punkPoints2 = [[2, 33]];
@@ -98,9 +124,7 @@ angular.module('progressPage', [])
                         backgroundColor: { colors: ["#919191", "#141414"] }
                     }
                 };
-//
-//
-//                console.log($scope.barData);
+
                 dataProcess();
             }
         }
