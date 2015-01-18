@@ -31,12 +31,11 @@ angular.module('entryScreen', ['ui.bootstrap'])
         };
 
         var interval;
-
         dataService.getData().then(function(data) {
           	$scope.otherActivities = data.map(function(e) {
             	return e.name
           	}).sort().reduce(function(prev, curr, index){
-            if (index == 1) {
+            if (index == 1 || index == 0) {
             	prev = [prev]
             }
             if (prev[prev.length-1] == curr) {
