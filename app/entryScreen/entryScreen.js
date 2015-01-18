@@ -1,5 +1,4 @@
 var moment = require('moment');
-
 angular.module('entryScreen', [])
   .directive('entryScreen', function() {
     return {
