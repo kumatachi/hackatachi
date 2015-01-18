@@ -38,4 +38,22 @@
     <button type="submit" class="btn btn-primary pull-right">Submit</button>
     <div class="clearfix"></div>
   </form>
+  <table class="table">
+    <thead>
+    <tr><th>Activity</th><th>Minutes</th><th>Options</th></tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="activity in currentDateActivities">
+      <td>
+        {{activity.name}}
+      </td>
+      <td>
+        {{activity.duration}}
+      </td>
+      <td>
+        <button class="btn btn-danger" ng-click="delete(activity)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
