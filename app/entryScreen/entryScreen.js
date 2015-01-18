@@ -31,19 +31,21 @@ angular.module('entryScreen', ['ui.bootstrap'])
         };
 
         var interval;
-
-        dataService.getData().then(function(data) {
-          	$scope.otherActivities = data.map(function(e) {
-            	return e.name
-          	}).sort().reduce(function(prev, curr, index){
-            if (prev[prev.length-1] == curr) {
-            	return prev;
-            }
-            else {
-            	return prev.concat(curr)
-            }
-          }, []);
-        });
+        var generateOtherActivities = function(){
+        	dataService.getData().then(function(data) {
+	          	$scope.otherActivities = data.map(function(e) {
+	            	return e.name
+	          	}).sort().reduce(function(prev, curr, index){
+	            if (prev[prev.length-1] == curr) {
+	            	return prev;
+	            }
+	            else {
+	            	return prev.concat(curr)
+	            }
+	        	}, []);
+        	});
+        }
+        generateOtherActivities();
         $scope.previousDay = function(){
           $scope.selectedDate.subtract(1, 'days');
           $scope.activity._id = $scope.selectedDate.toISOString();
@@ -94,7 +96,7 @@ angular.module('entryScreen', ['ui.bootstrap'])
               toastr.info("Logged it!");
               $(".entryContainer").slideUp(500);
               $scope.$apply(function(){
-
+              	generateOtherActivities();
                 $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
                 $scope.selectedDate = moment();
                 $scope.activity = {
