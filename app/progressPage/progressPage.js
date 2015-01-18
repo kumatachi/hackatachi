@@ -57,21 +57,50 @@ angular.module('progressPage', [])
                         show: false
                     }
                 };
+                var daftPoints = [[0, 4]],
+                    punkPoints = [[1, 20]],
+                    punkPoints2 = [[2, 33]];
 
-
-                $scope.barOptions = {
-                    series: {
-                        curvedLines: {
-                            apply: true,
-                            active: true,
-                            monotonicFit: true
-                        }
+                var data1 = [
+                    {
+                        data: daftPoints,
+                        bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
                     },
-                    legend: {
-                        show: false
+                    {
+                        data: punkPoints,
+                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
+                    },
+                    {
+                        data: punkPoints2,
+                        bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
+                    }
+                ];
+
+                $scope.data = data1;
+
+
+//
+//                var d1 = [];
+//                for (var i = 0; i <= 10; i += 1) {
+//                    d1.push([i, parseInt(Math.random() * 30)]);
+//                }
+//                $scope.barData = {data: d1, lines: { show: true, fill: true }, stack: true };
+//
+//
+                $scope.barOptions = {
+                    series:{
+                        bars:{show: true}
+                    },
+                    bars:{
+                        barWidth:0.8
+                    },
+                    grid:{
+                        backgroundColor: { colors: ["#919191", "#141414"] }
                     }
                 };
-
+//
+//
+//                console.log($scope.barData);
                 dataProcess();
             }
         }
