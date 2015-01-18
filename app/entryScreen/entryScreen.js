@@ -18,7 +18,7 @@ angular.module('entryScreen', ['ui.bootstrap'])
         };
 
     		$scope.timerActive = false;
-        $scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
+        	$scope.durationHours = $scope.durationMinutes = $scope.durationSeconds = 0
     		$scope.selectedDate = moment();
     		$scope.otherActivities = [];
   			$scope.activity = {
@@ -33,19 +33,16 @@ angular.module('entryScreen', ['ui.bootstrap'])
         var interval;
 
         dataService.getData().then(function(data) {
-          $scope.otherActivities = data.map(function(e) {
-            return e.name
-          }).sort().reduce(function(prev, curr, index){
-            if (index == 1) {
-              prev = [prev]
-            }
+          	$scope.otherActivities = data.map(function(e) {
+            	return e.name
+          	}).sort().reduce(function(prev, curr, index){
             if (prev[prev.length-1] == curr) {
-              return prev;
+            	return prev;
             }
             else {
-              return prev.concat(curr)
+            	return prev.concat(curr)
             }
-          });
+          }, []);
         });
         $scope.previousDay = function(){
           $scope.selectedDate.subtract(1, 'days');
